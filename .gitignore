@@ -1,6 +1,10 @@
 # IDEs #
-###################
+########
 .idea/
+
+# Maven artifacts #
+###################
+target/
 
 # Compiled source #
 ###################
