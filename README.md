@@ -16,13 +16,14 @@ supbruh uses a number of open source projects to work properly:
 
 ### Installation
 
-supbruh requires [Java](https://www.java.com/) and [Maven](https://maven.apache.org/)to run.
+supbruh requires [Java](https://www.java.com/) and [Maven](https://maven.apache.org/) to run.
 
 Install the dependencies and run maven to fetch other dependencies.
 
 ```sh
 $ cd supbruh
-$ mvn package
+$ mvn clean compile assembly:single 
+$ java -jar target/supbruh.jar
 ```
 
 ### Todos
