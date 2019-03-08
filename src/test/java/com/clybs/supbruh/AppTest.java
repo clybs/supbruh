@@ -12,7 +12,10 @@ public class AppTest {
      * Rigorous Test :-)
      */
     @Test
-    public void shouldAnswerWithTrue() {
+    public void shouldReturnCorrectDefinitions() {
+        App tester = new App();
+
+
         assertTrue(true);
     }
 }
