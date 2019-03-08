@@ -6,6 +6,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.jetbrains.annotations.NotNull;
+import com.clybs.supbruh.commands.Commands;
 
 /**
  * Entry point
@@ -14,10 +15,16 @@ public class App {
 
     /**
      * main method of
+     *
      * @param args The string of arguments passed
      * @throws ParseException
      */
     public static void main(String[] args) throws ParseException {
+        // Create commands
+
+        Commands cc = new Commands();
+
+
         // Get the arguments
         CommandLine cmd = getArguments(getDefinitions(), args);
 
@@ -27,8 +34,9 @@ public class App {
 
     /**
      * getArguments will get the arguments passed in the commandline
+     *
      * @param options The options object
-     * @param args The arguments passed
+     * @param args    The arguments passed
      * @return CommandLine object
      * @throws ParseException
      */
@@ -44,6 +52,7 @@ public class App {
 
     /**
      * getDefinitions will get the definitions that will be used
+     *
      * @return Options object
      */
     private static Options getDefinitions() {
@@ -61,6 +70,7 @@ public class App {
 
     /**
      * execute will do the requested command
+     *
      * @param cmd The CommandLine object
      */
     private static void execute(@NotNull CommandLine cmd) {
