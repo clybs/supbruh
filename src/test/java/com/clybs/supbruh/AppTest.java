@@ -26,8 +26,7 @@ public class AppTest {
         Method method = Whitebox.getMethod(App.class, "getDefinitions");
         Options options = (Options) method.invoke(null, null);
 
-        assertTrue(options.hasOption("x"));
-        assertTrue(options.hasOption("y"));
+        assertTrue(options.hasOption("f"));
         assertFalse(options.hasOption("z"));
     }
 }

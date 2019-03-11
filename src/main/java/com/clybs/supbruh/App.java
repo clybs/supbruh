@@ -12,6 +12,7 @@ import com.clybs.supbruh.commands.Commands;
  * Entry point
  */
 public class App {
+    private static Commands commands;
 
     /**
      * main method of
@@ -20,16 +21,11 @@ public class App {
      * @throws ParseException
      */
     public static void main(String[] args) throws ParseException {
-        // Create commands
-
-        Commands cc = new Commands();
-
-
         // Get the arguments
         CommandLine cmd = getArguments(getDefinitions(), args);
 
         // Execute the command
-        execute(cmd);
+        execute(cmd, args);
     }
 
     /**
@@ -59,11 +55,8 @@ public class App {
         // Create Options object
         Options options = new Options();
 
-        // Add option "-x"
-        options.addOption("x", false, "x selected");
-
-        // Add option "-y"
-        options.addOption("y", false, "y selected");
+        // Add option "-f"
+        options.addOption("f", false, "XML file to load");
 
         return options;
     }
@@ -71,14 +64,17 @@ public class App {
     /**
      * execute will do the requested command
      *
-     * @param cmd The CommandLine object
+     * @param cmd  The CommandLine object
+     * @param args the arguments passed
      */
-    private static void execute(@NotNull CommandLine cmd) {
+    private static void execute(@NotNull CommandLine cmd, String[] args) {
         // Check which option was selected
-        if (cmd.hasOption("x")) {
-            System.out.println("x this: ");
-        } else if (cmd.hasOption("y")) {
-            System.out.println("y that: ");
+        if (cmd.hasOption("f") && args.length > 1) {
+            // Load Commands
+            commands = new Commands(args[1]);
+        } else {
+            // Load default Commands
+            commands = new Commands(null);
         }
     }
 }

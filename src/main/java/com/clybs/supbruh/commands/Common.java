@@ -7,7 +7,6 @@ public class Common extends Command {
 
     @Override
     public void save() {
-        System.out.print("Common ");
         loadTask.execute();
         processTask.execute();
     }
