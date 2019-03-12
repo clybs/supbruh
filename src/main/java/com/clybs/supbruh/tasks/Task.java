@@ -1,10 +1,10 @@
-package com.clybs.supbruh.commands;
+package com.clybs.supbruh.tasks;
 
-abstract class Command {
+abstract class Task {
     protected Load loadTask;
     protected Process processTask;
 
-    protected Command(Load loadTask, Process processTask) {
+    protected Task(Load loadTask, Process processTask) {
         this.loadTask = loadTask;
         this.processTask = processTask;
     }

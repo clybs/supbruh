@@ -1,4 +1,4 @@
-package com.clybs.supbruh.commands;
+package com.clybs.supbruh.tasks;
 
 import java.io.File;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -6,11 +6,11 @@ import javax.xml.parsers.DocumentBuilder;
 
 import org.w3c.dom.Document;
 
-public class Load implements Task {
+public class Load implements ITask {
     private String filename;
     private Document document;
 
-    public static final String DEFAULT_FILENAME = "commands.xml";
+    public static final String DEFAULT_FILENAME = "tasks.xml";
 
     /**
      * Load is the constructor
@@ -20,7 +20,7 @@ public class Load implements Task {
     public Load(String filename) {
         // Set default filename
         setFilename(filename);
-        System.out.println("Loading commands from file: " + this.filename);
+        System.out.println("Loading tasks from file: " + this.filename);
     }
 
     @Override

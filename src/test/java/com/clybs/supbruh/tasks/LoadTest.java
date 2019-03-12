@@ -1,4 +1,4 @@
-package com.clybs.supbruh.commands;
+package com.clybs.supbruh.tasks;
 
 import org.junit.Test;
 
@@ -54,7 +54,7 @@ public class LoadTest {
     public void setFilename() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Load load = new Load(null);
 
-        assertTrue(load.getFilename() == "commands.xml");
+        assertTrue(load.getFilename() == "tasks.xml");
 
         Method method = Whitebox.getMethod(Load.class, "setFilename", String.class);
         method.invoke(load, "test.xml");

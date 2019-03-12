@@ -1,37 +1,32 @@
-package com.clybs.supbruh.commands;
+package com.clybs.supbruh.tasks;
 
-import org.apache.commons.cli.Options;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
+import org.w3c.dom.*;
 
-public class Process implements Task {
-    private Options options;
+import java.util.ArrayList;
+
+public class Process implements ITask {
+    private Document document;
+    private ArrayList<NodeTask> nodeTasks;
 
     /**
-     * Process the document
-     *
-     * @param document the {@link Document} object
+     * parse will look for tasks in the document
      */
-    public Process(Document document) {
-        // Set the new options
-        options = new Options();
+    private void parse() {
+        nodeTasks = new ArrayList<>();
 
         // Normalize and start fetching
         document.getDocumentElement().normalize();
-        NodeList nList = document.getElementsByTagName("command");
+        NodeList nList = document.getElementsByTagName("task");
 
         // Get the required items
         for (int i = 0; i < nList.getLength(); i++) {
             Node nNode = nList.item(i);
-
             String currentElement = nNode.getNodeName();
 
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) nNode;
 
-                String commandName = eElement.getAttribute("name");
+                String taskName = eElement.getAttribute("name");
                 String description = eElement.getElementsByTagName("description")
                         .item(0)
                         .getTextContent();
@@ -43,24 +38,22 @@ public class Process implements Task {
                         .getElementsByTagName("alias")
                         .item(0)
                         .getTextContent();
-                String paramRequired = eElement
-                        .getElementsByTagName("paramRequired")
-                        .item(0)
-                        .getTextContent();
-                boolean paramRequiredConverted = Boolean.parseBoolean(paramRequired);
 
                 // Prepare the conditions for a command to be added
-                boolean currentElementIsCommand = currentElement == "command";
-                boolean commandNameFound = commandName != null && !commandName.isEmpty();
+                boolean currentElementIsCommand = currentElement == "task";
+                boolean commandNameFound = taskName != null && !taskName.isEmpty();
                 boolean descriptionFound = description != null && !description.isEmpty();
                 boolean letterFound = letter != null && !letter.isEmpty();
                 boolean aliasFound = alias != null && !alias.isEmpty();
-                boolean paramRequiredFound = paramRequired != null && !paramRequired.isEmpty();
 
                 // Check if command can be added
                 if (currentElementIsCommand && commandNameFound && descriptionFound &&
-                        letterFound && aliasFound && paramRequiredFound) {
-                    options.addOption(letter, alias, paramRequiredConverted, description);
+                        letterFound && aliasFound) {
+                    // Create a nodeTask
+                    NodeTask nodeTask = new NodeTask(taskName, description, letter);
+
+                    // Add it to existing nodeTasks
+                    nodeTasks.add(nodeTask);
                 }
             }
         }
@@ -71,16 +64,36 @@ public class Process implements Task {
      * execute will perform the operation
      */
     public void execute() {
+        // Parse the document
+        parse();
         System.out.print(" And");
         System.out.println(" Processed.");
     }
 
     /**
-     * getOptions will get the options
+     * getDocument will get the document
      *
      * @return
      */
-    public Options getOptions() {
-        return options;
+    public Document getDocument() {
+        return document;
+    }
+
+    /**
+     * getNodeTasks will get the nodeTasks
+     *
+     * @return
+     */
+    public ArrayList<NodeTask> getNodeTasks() {
+        return nodeTasks;
+    }
+
+    /**
+     * setDocument will set the document
+     *
+     * @param document The document to use
+     */
+    public void setDocument(Document document) {
+        this.document = document;
     }
 }

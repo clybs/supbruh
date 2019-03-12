@@ -1,18 +1,15 @@
 package com.clybs.supbruh;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import com.clybs.supbruh.tasks.TaskGroups;
+import org.apache.commons.cli.*;
 import org.jetbrains.annotations.NotNull;
-import com.clybs.supbruh.commands.Commands;
 
 /**
  * Entry point
  */
 public class App {
-    private static Commands commands;
+    private static TaskGroups taskGroups;
+    private static Options options;
 
     /**
      * main method of
@@ -25,7 +22,7 @@ public class App {
         CommandLine cmd = getArguments(getDefinitions(), args);
 
         // Execute the command
-        execute(cmd, args);
+        executeLoadFile(cmd, args);
     }
 
     /**
@@ -53,28 +50,43 @@ public class App {
      */
     private static Options getDefinitions() {
         // Create Options object
-        Options options = new Options();
+        options = new Options();
 
         // Add option "-f"
         options.addOption("f", false, "XML file to load");
+        options.addOption("c", true, "The command to execute");
+
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("supbruh", options);
 
         return options;
     }
 
     /**
-     * execute will do the requested command
+     * executeLoadFile will load the requested file
      *
      * @param cmd  The {@link CommandLine} object
-     * @param args the arguments passed
+     * @param args The arguments passed
      */
-    private static void execute(@NotNull CommandLine cmd, String[] args) {
+    private static void executeLoadFile(@NotNull CommandLine cmd, String[] args) throws ParseException {
         // Check which option was selected
         if (cmd.hasOption("f") && args.length > 1) {
-            // Load Commands
-            commands = new Commands(args[1]);
+            // Get the arguments
+            String filename = args[1];
+
+            // Load TaskGroups
+            taskGroups = new TaskGroups(filename);
+
+//            System.out.println(Arrays.toString(cmd.getOptions()));
+////            System.out.println(options.toString());
+////            System.out.println(tasks.getOptions());
+//            System.out.println(tasks.getOptions().toString());
+//            CommandLine cmd2 = getArguments(tasks.getOptions(), args);
+//            System.out.println("1 "+cmd2.hasOption("f"));
+//            System.out.println("2 "+cmd2.hasOption("c"));
         } else {
-            // Load default Commands
-            commands = new Commands(null);
+            // Load default TaskGroups
+            taskGroups = new TaskGroups(null);
         }
     }
 }

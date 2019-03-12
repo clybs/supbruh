@@ -1,22 +1,23 @@
-package com.clybs.supbruh.commands;
+package com.clybs.supbruh.tasks;
 
-public class Common extends Command {
+public class CommonTasks extends Task {
     /**
-     * Common are commands that are common
+     * CommonTasks are tasks that are common
      *
      * @param loadTask    The {@link Load} object
      * @param processTask The {@link Process} object
      */
-    public Common(Load loadTask, Process processTask) {
+    public CommonTasks(Load loadTask, Process processTask) {
         super(loadTask, processTask);
     }
 
     @Override
     /**
-     * save will save the commands for future calling
+     * save will save the tasks for future calling
      */
     public void save() {
         loadTask.execute();
+        processTask.setDocument(loadTask.getDocument());
         processTask.execute();
     }
 }
