@@ -1,10 +1,11 @@
 package com.clybs.supbruh.commands;
 
-import org.apache.commons.cli.Options;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -12,6 +13,12 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Load.class})
@@ -20,14 +27,17 @@ public class LoadTest {
     public static final String DEFAULT_FILENAME = "src/test/resources/xmls/test.xml";
 
     @Test
-    public void execute() {
-        String filename = DEFAULT_FILENAME;
-        Load load = new Load(filename);
+    public void execute() throws ParserConfigurationException, IOException, SAXException {
+        Load load = new Load(DEFAULT_FILENAME);
+        File inputFile = new File(DEFAULT_FILENAME);
+
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document document = dBuilder.parse(inputFile);
         load.execute();
 
         assertTrue(load.getFilename() != Load.DEFAULT_FILENAME);
-        assertTrue(load.getOptions().hasOption("a"));
-        assertTrue(load.getOptions().hasLongOption("bbb"));
+        assertTrue(load.getDocument().getClass() == document.getClass());
     }
 
     @Test
@@ -38,16 +48,6 @@ public class LoadTest {
 
         assertTrue(loadNull.getFilename() == Load.DEFAULT_FILENAME);
         assertTrue(loadNotNull.getFilename() == filename);
-    }
-
-    @Test
-    public void getOptions() {
-        String filename = DEFAULT_FILENAME;
-        Load load = new Load(filename);
-        Options options = new Options();
-        load.execute();
-
-        assertTrue(load.getOptions().getClass() == options.getClass());
     }
 
     @Test

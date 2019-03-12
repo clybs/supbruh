@@ -31,7 +31,7 @@ public class App {
     /**
      * getArguments will get the arguments passed in the commandline
      *
-     * @param options The options object
+     * @param options The {@link Options} object
      * @param args    The arguments passed
      * @return CommandLine object
      * @throws ParseException
@@ -64,7 +64,7 @@ public class App {
     /**
      * execute will do the requested command
      *
-     * @param cmd  The CommandLine object
+     * @param cmd  The {@link CommandLine} object
      * @param args the arguments passed
      */
     private static void execute(@NotNull CommandLine cmd, String[] args) {
