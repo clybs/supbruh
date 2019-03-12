@@ -1,0 +1,23 @@
+<?xml version = "1.0"?>
+<commands>
+    <command name="name 1">
+        <description>desc 1</description>
+        <letter>a</letter>
+        <alias>aaa</alias>
+        <paramRequired>true</paramRequired>
+    </command>
+
+    <command name="name 2">
+        <description>desc 2</description>
+        <letter>b</letter>
+        <alias>bbb</alias>
+        <paramRequired>false</paramRequired>
+    </command>
+
+    <command name="name 3">
+        <description>desc 3</description>
+        <letter>c</letter>
+        <alias>ccc</alias>
+        <paramRequired>true</paramRequired>
+    </command>
+</commands>

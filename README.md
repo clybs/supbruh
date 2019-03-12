@@ -22,7 +22,7 @@ Install the dependencies and run maven to fetch other dependencies.
 
 ```sh
 $ cd supbruh
-$ mvn clean compile assembly:single 
+$ mvn clean test compile assembly:single 
 $ java -jar target/supbruh.jar
 ```
 

@@ -1,0 +1,35 @@
+<?xml version = "1.0"?>
+<tasks>
+    <task id="111" name="name 1">
+        <description>desc 1</description>
+        <letter>a</letter>
+        <alias>aaa</alias>
+        <paramRequired>true</paramRequired>
+    </task>
+
+    <task id="222" name="name 2">
+        <description>desc 2</description>
+        <letter>b</letter>
+        <alias>bbb</alias>
+        <paramRequired>false</paramRequired>
+        <task name="name 4">
+            <description>desc 2</description>
+            <letter>b</letter>
+            <alias>bbb</alias>
+            <paramRequired>false</paramRequired>
+        </task>
+    </task>
+
+    <task id="333" name="name 3">
+        <description>desc 3</description>
+        <letter>c</letter>
+        <alias>ccc</alias>
+        <paramRequired>true</paramRequired>
+        <task name="name 5">
+            <description>desc 2</description>
+            <letter>b</letter>
+            <alias>bbb</alias>
+            <paramRequired>false</paramRequired>
+        </task>
+    </task>
+</tasks>
