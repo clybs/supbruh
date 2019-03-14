@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class Process implements ITask {
     private Document document;
+    private String taskGroupName;
     private ArrayList<NodeTask> nodeTasks;
 
     /**
@@ -14,48 +15,47 @@ public class Process implements ITask {
     private void parse() {
         nodeTasks = new ArrayList<>();
 
-        // Normalize and start fetching
-        document.getDocumentElement().normalize();
-        NodeList nList = document.getElementsByTagName("task");
+        try {
+            // Normalize and start fetching
+            document.getDocumentElement().normalize();
+            NodeList nList = document.getElementsByTagName("task");
 
-        // Get the required items
-        for (int i = 0; i < nList.getLength(); i++) {
-            Node nNode = nList.item(i);
-            String currentElement = nNode.getNodeName();
+            // Get the required items
+            for (int i = 0; i < nList.getLength(); i++) {
+                Node nNode = nList.item(i);
+                String currentElement = nNode.getNodeName();
 
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) nNode;
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
 
-                String taskName = eElement.getAttribute("name");
-                String description = eElement.getElementsByTagName("description")
-                        .item(0)
-                        .getTextContent();
-                String letter = eElement
-                        .getElementsByTagName("letter")
-                        .item(0)
-                        .getTextContent();
-                String alias = eElement
-                        .getElementsByTagName("alias")
-                        .item(0)
-                        .getTextContent();
+                    String taskName = eElement.getAttribute("name");
+                    String description = eElement.getElementsByTagName("description")
+                            .item(0)
+                            .getTextContent();
 
-                // Prepare the conditions for a command to be added
-                boolean currentElementIsCommand = currentElement == "task";
-                boolean commandNameFound = taskName != null && !taskName.isEmpty();
-                boolean descriptionFound = description != null && !description.isEmpty();
-                boolean letterFound = letter != null && !letter.isEmpty();
-                boolean aliasFound = alias != null && !alias.isEmpty();
+                    // Prepare the conditions for a command to be added
+                    boolean currentElementIsCommand = currentElement == "task";
+                    boolean commandNameFound = taskName != null && !taskName.isEmpty();
+                    boolean descriptionFound = description != null && !description.isEmpty();
 
-                // Check if command can be added
-                if (currentElementIsCommand && commandNameFound && descriptionFound &&
-                        letterFound && aliasFound) {
-                    // Create a nodeTask
-                    NodeTask nodeTask = new NodeTask(taskName, description, letter);
+                    // Check if command can be added
+                    if (currentElementIsCommand && commandNameFound && descriptionFound) {
+                        // Create a nodeTask
+                        NodeTask nodeTask = new NodeTask(taskName, description, taskGroupName);
 
-                    // Add it to existing nodeTasks
-                    nodeTasks.add(nodeTask);
+                        // Add it to existing nodeTasks
+                        nodeTasks.add(nodeTask);
+                    }
                 }
             }
+        } catch (NullPointerException npe) {
+            // Check if there is a message
+            if (npe.getLocalizedMessage() != null) {
+                System.out.println(npe.getLocalizedMessage());
+            }
+
+            // Exit program
+            System.exit(1);
         }
     }
 
@@ -66,8 +66,16 @@ public class Process implements ITask {
     public void execute() {
         // Parse the document
         parse();
-        System.out.print(" And");
-        System.out.println(" Processed.");
+        System.out.println("Processed task group: " + taskGroupName);
+    }
+
+    /**
+     * getTaskGroupName will get the task group name
+     *
+     * @return
+     */
+    public String getTaskGroupName() {
+        return taskGroupName;
     }
 
     /**
@@ -95,5 +103,14 @@ public class Process implements ITask {
      */
     public void setDocument(Document document) {
         this.document = document;
+    }
+
+    /**
+     * setTaskGroupName will set the task group name
+     *
+     * @param taskGroupName The task group name to use
+     */
+    public void setTaskGroupName(String taskGroupName) {
+        this.taskGroupName = taskGroupName;
     }
 }

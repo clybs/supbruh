@@ -1,5 +1,7 @@
 package com.clybs.supbruh.tasks;
 
+import java.util.ArrayList;
+
 abstract class Task {
     protected Load loadTask;
     protected Process processTask;
@@ -10,4 +12,5 @@ abstract class Task {
     }
 
     abstract public void save();
+    abstract public ArrayList<NodeTask> getTasks();
 }

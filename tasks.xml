@@ -1,23 +1,20 @@
 <?xml version = "1.0"?>
 <tasks>
-    <task name="name 1">
-        <description>desc 1</description>
-        <letter>a</letter>
-        <alias>aaa</alias>
-        <paramRequired>true</paramRequired>
+    <task name="SearchGoogle">
+        <description>Do a search on Google</description>
+        <task name="SearchYa">
+            <description>Do a search on Google</description>
+        </task>
+        <task name="SearchGoogleAgain">
+            <description>Do a search on Google</description>
+        </task>
     </task>
 
-    <task name="name 2">
-        <description>desc 2</description>
-        <letter>b</letter>
-        <alias>bbb</alias>
-        <paramRequired>false</paramRequired>
+    <task name="SearchBing">
+        <description>Do a search on Bing</description>
     </task>
 
-    <task name="name 3">
-        <description>desc 3</description>
-        <letter>c</letter>
-        <alias>ccc</alias>
-        <paramRequired>true</paramRequired>
+    <task name="SearchGoogle">
+        <description>Do a search on Google</description>
     </task>
 </tasks>

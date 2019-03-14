@@ -48,6 +48,18 @@ public class ProcessTest {
 
         Process process = new Process();
         process.setDocument(document);
+        process.execute();
+
+        assertTrue(process.getNodeTasks().size() == 5);
+    }
+
+    @Test
+    public void getTaskGroupName() {
+        String taskGroupName = "test";
+        Process process = new Process();
+        process.setTaskGroupName(taskGroupName);
+
+        assertTrue(process.getTaskGroupName() == taskGroupName);
     }
 
     @Test
@@ -79,5 +91,19 @@ public class ProcessTest {
         process.setDocument(document);
 
         assertTrue(process.getDocument().getClass() == document.getClass());
+    }
+
+    @Test
+    public void setTaskGroupName() {
+        String taskGroupName = "test";
+        String taskGroupNameDifferent = "test different";
+
+        Process process = new Process();
+
+        process.setTaskGroupName(taskGroupName);
+        assertTrue(process.getTaskGroupName() == taskGroupName);
+
+        process.setTaskGroupName(taskGroupNameDifferent);
+        assertTrue(process.getTaskGroupName() != taskGroupName);
     }
 }

@@ -17,12 +17,19 @@ public class App {
      * @param args The string of arguments passed
      * @throws ParseException
      */
-    public static void main(String[] args) throws ParseException {
-        // Get the arguments
-        CommandLine cmd = getArguments(getDefinitions(), args);
+    public static void main(String[] args) {
+        try {
+            // Get the arguments
+            CommandLine cmd = getArguments(getDefinitions(), args);
 
-        // Execute the command
-        executeLoadFile(cmd, args);
+            // Execute the command
+            executeLoadAndParseFile(cmd);
+
+            // Check if tasks were found
+            executeTasks();
+        } catch (ParseException pe) {
+            System.out.println(pe.getLocalizedMessage());
+        }
     }
 
     /**
@@ -52,41 +59,57 @@ public class App {
         // Create Options object
         options = new Options();
 
-        // Add option "-f"
-        options.addOption("f", false, "XML file to load");
-        options.addOption("c", true, "The command to execute");
-
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("supbruh", options);
+        // Add user options
+        options.addOption("f", "filename", true, "XML file to load. Default file if not specified is tasks.xml.");
+        options.addOption("n", "name", true, "The task name to execute.");
+        options.addOption("g", "groupname", true, "The task group name to execute.");
+        options.addOption("h", "help", false, "Help manual.");
 
         return options;
     }
 
     /**
-     * executeLoadFile will load the requested file
+     * executeLoadAndParseFile will load the requested file
      *
-     * @param cmd  The {@link CommandLine} object
-     * @param args The arguments passed
+     * @param cmd The {@link CommandLine} object
      */
-    private static void executeLoadFile(@NotNull CommandLine cmd, String[] args) throws ParseException {
-        // Check which option was selected
-        if (cmd.hasOption("f") && args.length > 1) {
-            // Get the arguments
-            String filename = args[1];
+    private static void executeLoadAndParseFile(@NotNull CommandLine cmd) {
+        // Get the values
+        String filename = null;
+        String taskName = null;
+        String taskGroupName = null;
 
-            // Load TaskGroups
-            taskGroups = new TaskGroups(filename);
+        if (cmd.hasOption("h")) {
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("supbruh", options);
 
-//            System.out.println(Arrays.toString(cmd.getOptions()));
-////            System.out.println(options.toString());
-////            System.out.println(tasks.getOptions());
-//            System.out.println(tasks.getOptions().toString());
-//            CommandLine cmd2 = getArguments(tasks.getOptions(), args);
-//            System.out.println("1 "+cmd2.hasOption("f"));
-//            System.out.println("2 "+cmd2.hasOption("c"));
-        } else {
-            // Load default TaskGroups
-            taskGroups = new TaskGroups(null);
+            return;
         }
+
+        if (cmd.hasOption("f")) {
+            filename = cmd.getOptionValue("f");
+        }
+
+        if (cmd.hasOption("n")) {
+            taskName = cmd.getOptionValue("n");
+        }
+
+        if (cmd.hasOption("g")) {
+            taskGroupName = cmd.getOptionValue("g");
+        }
+
+        // Load TaskGroups
+        taskGroups = new TaskGroups(filename, taskName, taskGroupName);
+    }
+
+    private static void executeTasks() {
+        // Check if there are tasks to execute
+        if (taskGroups.getTodoList().isEmpty()) {
+            System.out.println("No task to execute");
+            return;
+        }
+
+        System.out.println("Execute task");
+        taskGroups.getTodoList().forEach(System.out::println);
     }
 }
