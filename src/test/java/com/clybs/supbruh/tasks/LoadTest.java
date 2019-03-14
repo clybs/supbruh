@@ -41,6 +41,19 @@ public class LoadTest {
     }
 
     @Test
+    public void getDocument() throws IOException, SAXException, ParserConfigurationException {
+        Load load = new Load(DEFAULT_FILENAME);
+        File inputFile = new File(DEFAULT_FILENAME);
+
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document document = dBuilder.parse(inputFile);
+        load.execute();
+
+        assertTrue(load.getDocument().getClass() == document.getClass());
+    }
+
+    @Test
     public void getFilename() {
         String filename = "test.xml";
         Load loadNull = new Load(null);

@@ -1,23 +1,20 @@
 <?xml version = "1.0"?>
-<commands>
-    <command name="name 1">
-        <description>desc 1</description>
-        <letter>a</letter>
-        <alias>aaa</alias>
-        <paramRequired>true</paramRequired>
-    </command>
+<tasks>
+    <task name="SearchGoogle">
+        <description>Do a search on Google</description>
+        <task name="SearchYahoo">
+            <description>Do a search on Google</description>
+        </task>
+        <task name="SearchGoogleAgain">
+            <description>Do a search on Google</description>
+        </task>
+    </task>
 
-    <command name="name 2">
-        <description>desc 2</description>
-        <letter>b</letter>
-        <alias>bbb</alias>
-        <paramRequired>false</paramRequired>
-    </command>
+    <task name="SearchBing">
+        <description>Do a search on Bing</description>
+    </task>
 
-    <command name="name 3">
-        <description>desc 3</description>
-        <letter>c</letter>
-        <alias>ccc</alias>
-        <paramRequired>true</paramRequired>
-    </command>
-</commands>
+    <task name="SearchGoogle">
+        <description>Do a search on Google</description>
+    </task>
+</tasks>
